@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f3ef">
+    <title>OpsBuddy — a clearer next step</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="wordmark" href="/" aria-label="OpsBuddy home">
+          <span class="wordmark-mark" aria-hidden="true">O</span>
+          <span>opsbuddy</span>
+        </a>
+        <span class="local-status"><span class="status-dot"></span>Runs on your machine</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">A calmer way to troubleshoot</p>
+        <h1>Stuck on an error?<br><span>Let’s work through it.</span></h1>
+        <p class="intro-copy">
+          Share what you’re seeing. OpsBuddy will explain what might be happening and suggest
+          a few safe things to check next.
+        </p>
+      </section>
+
+      <section class="workspace" aria-label="Troubleshooting">
+        <form id="analysis-form" class="input-card">
+          <div class="form-heading">
+            <div>
+              <p class="eyebrow">Start with what you know</p>
+              <h2>Your troubleshooting notes</h2>
+            </div>
+            <span class="step-label">01 / 02</span>
+          </div>
+
+          <label for="issue-type">What are you working on?</label>
+          <select id="issue-type" name="issue_type">
+            <option value="kubernetes">Kubernetes</option>
+            <option value="docker">Docker</option>
+            <option value="cicd">CI/CD</option>
+            <option value="general">Something else</option>
+          </select>
+
+          <div class="textarea-heading">
+            <label for="details">Paste the error, logs, or what you tried</label>
+            <span id="character-count">0 / 12,000</span>
+          </div>
+          <textarea
+            id="details"
+            name="details"
+            minlength="10"
+            maxlength="12000"
+            placeholder="For example: my pod keeps restarting. Here are the events and the last few lines of its logs…"
+            required
+          ></textarea>
+
+          <p class="privacy-note">
+            Remove passwords, tokens, and other secrets before pasting. Your notes are sent to
+            the Ollama model running on this computer and are not saved by OpsBuddy.
+          </p>
+          <div class="form-footer">
+            <span id="form-message" role="status" aria-live="polite"></span>
+            <button id="submit-button" type="submit">
+              <span>Help me understand this</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+
+        <section id="result" class="result-card" aria-live="polite" hidden>
+          <div class="result-heading">
+            <div>
+              <p class="eyebrow">A place to start</p>
+              <h2>What might be going on</h2>
+            </div>
+            <span class="result-mark" aria-hidden="true">02</span>
+          </div>
+          <div id="result-content"></div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <p>Made for learning, not for running changes on your systems.</p>
+        <p>Always review commands before you run them.</p>
+      </footer>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
