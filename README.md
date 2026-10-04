@@ -1,8 +1,8 @@
 # OpsBuddy
 
-OpsBuddy is a small troubleshooting helper for a friend who is learning DevOps. When Kubernetes, Docker, or a CI/CD pipeline fails, it turns the error or logs into a plain-language explanation and a few practical next steps.
+OpsBuddy is a small troubleshooting helper for a close friend who is learning DevOps. When Kubernetes, Docker, or a CI/CD pipeline fails, it turns the error or logs into a plain-language explanation and a few practical next steps.
 
-The first version uses a local Ollama model. Diagnostic text stays on the computer running Ollama; OpsBuddy does not store submitted notes. Remove passwords, tokens, and other secrets before pasting logs, and review every suggested command before running it.
+The first version uses a local Ollama model. Diagnostic text stays on the computer running Ollama; OpsBuddy does not store submitted notes. Remove passwords, tokens, and other secrets before pasting logs. OpsBuddy removes next steps that contain known potentially system-changing actions or common shell commands, and only shows commands from a small read-only allowlist. Model output still needs review.
 
 ## Run it locally
 

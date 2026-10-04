@@ -1,69 +1,41 @@
-# Hacktoberfest Weekend Challenge: Build for a Friend
+*This is a submission for the [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01)*
 
-## What I built
+## What I Built
 
-OpsBuddy is a local troubleshooting helper for a friend or teammate learning
-DevOps. It turns a messy Docker, Kubernetes, or CI/CD error into a short,
-plain-language explanation, likely causes, and a few careful next checks to
-review.
+I built OpsBuddy for my best friend, who is learning DevOps. When a Kubernetes pod keeps restarting, a Docker container exits unexpectedly, or a CI/CD run fails, it can be hard to know which part of the error matters or what to check first.
 
-The project is intentionally simple: it uses a local model, keeps the work on the
-user's machine, and avoids pretending it has more context than it actually does.
+OpsBuddy is a small troubleshooting assistant for those moments. You choose the area you are working on, paste an error or a short piece of diagnostic output, and ask for help understanding it. It returns a plain-language summary, possible causes, next checks, and commands to review.
 
-## Why this helps a friend
+My friend has tried the app and shared feedback with me. I’m keeping their name and personal details private.
 
-A lot of people learning DevOps do not need a full production dashboard. They
-need a calmer, safer way to understand what a failing error message actually
-means.
+OpsBuddy is meant to help someone decide where to investigate next, not to claim a definitive diagnosis. It does not connect to a cluster, run commands, or make changes to a system.
 
-OpsBuddy helps by turning raw logs or issues into:
+## Demo
 
-- a short summary of the issue
-- possible causes based on the available evidence
-- ordered checks to inspect next
-- read-only commands to review before changing anything
+**Demo video:** [Add the video link here before publishing.]
 
-This makes it useful for a friend, a teammate, or a beginner who is trying to
-learn without getting overwhelmed by tooling and jargon.
+The video will show a sanitized troubleshooting example entered into OpsBuddy and the resulting explanation and suggested checks. The app currently runs locally, so `localhost` is not a public demo link.
 
-## Why open-source AI matters here
+## Code
 
-This project is built around local open-source AI because the user should keep the
-workflow private and explainable. It keeps the diagnostic process grounded in
-what the user actually provides, rather than sending everything to a black-box
-service.
+[OpsBuddy on GitHub](https://github.com/AryanSharma9917/opsbuddy)
 
-Open-source, local-first tooling matters when you are learning or debugging in a
-real environment, especially when the goal is to understand the system instead of
-just getting a magical answer.
+## How I Built It
 
-## How it works
+OpsBuddy has a small browser-based interface and a FastAPI backend. The backend sends the submitted diagnostic text to Ollama running on the same computer and asks for a structured response. The default model is the open-weight `qwen2.5-coder:3b`.
 
-- accept diagnostic text from the user
-- call a local Ollama model with a safety-focused system prompt
-- ask for a summary, likely causes, and ordered checks
-- return the result in a structured JSON format
-- keep commands read-only and review-first
+While testing, I saw the model suggest restarting a Kubernetes pod even though the prompt asked it to stick to read-only troubleshooting. That made it clear that prompt wording alone was not enough. I added backend checks that remove known system-changing actions and common shell commands from the suggested steps, limit displayed commands to a small read-only allowlist, and ask for more information when the input is too vague to support an analysis.
 
-## How to run it
+These checks are safeguards, not a guarantee that every response is correct or suitable for every environment. OpsBuddy never executes the suggested commands, and users should review them before deciding whether to run them. Diagnostic text is sent to the local Ollama service; users should still remove passwords, tokens, and other secrets before sharing logs.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-ollama pull qwen2.5-coder:3b
-uvicorn app.main:app --reload
-```
+## Why Does Open Innovation Matter?
 
-Then open http://localhost:8000.
+Troubleshooting notes can contain details people would rather not send to a hosted AI service. With the default setup, OpsBuddy sends the request to Ollama on the same computer instead of a hosted AI API. Once Ollama and the model are installed, the analysis can run locally.
 
-## Project links
+Using an open-weight model also means the project is not tied to one proprietary AI API. A user can choose another compatible local model and decide what works on their own machine. The trade-off is that local inference needs enough computing resources, and the model can still give incorrect or overconfident answers.
 
-- Repository: https://github.com/AryanSharma9917/opsbuddy
-- Local app: http://localhost:8000
+For this project, open innovation makes it possible to build a useful local-first tool while giving the person using it more control over their diagnostic data and model choice.
 
-## Why this fits the challenge
+## My Agent Session
 
-This project is small, useful, and grounded in a real problem. It helps someone
-who is learning or supporting infrastructure make better decisions without blindly
-running commands or guessing at causes.
+This section is optional. I’m not including a DevRelay session link.
